@@ -94,13 +94,21 @@ const detailCards = [
 
 export default function App() {
   const [openImage, setOpenImage] = useState<string | null>(null);
-  const [rsvp, setRsvp] = useState<string | null>(null);
   const [name, setName] = useState('');
-  const [loading, setLoading] = useState(false);
 const [message, setMessage] = useState<string | null>(null);
 const [errorMsg, setErrorMsg] = useState<string | null>(null);
+const [loadingType, setLoadingType] = useState<string | null>(null);
   const graduationDate = new Date('2026-04-22T15:00:00');
+useEffect(() => {
+  if (message || errorMsg) {
+    const timer = setTimeout(() => {
+      setMessage(null);
+      setErrorMsg(null);
+    }, 3000); // 3 giây
 
+    return () => clearTimeout(timer);
+  }
+}, [message, errorMsg]);
   /* ================= SEND DATA ================= */
  const sendRSVP = async (status: string) => {
   setMessage(null);
@@ -112,8 +120,7 @@ const [errorMsg, setErrorMsg] = useState<string | null>(null);
   }
 
   try {
-    setLoading(true);
-
+    setLoadingType(status);
     await fetch("https://script.google.com/macros/s/AKfycbxemUoSNwiYWvZYMTSFvnacmj1zcobRPzV9boEKPOZK57S6jwG-67i--FrZnPZY-orx/exec", {
       method: "POST",
       body: JSON.stringify({
@@ -131,8 +138,7 @@ const [errorMsg, setErrorMsg] = useState<string | null>(null);
   } catch (error) {
     setErrorMsg("Có lỗi xảy ra, vui lòng thử lại");
   } finally {
-    setLoading(false);
-  }
+    setLoadingType(null);}
 };
   return (
     <div className="min-h-screen bg-white text-brand-accent selection:bg-brand-accent/10">
@@ -155,9 +161,9 @@ const [errorMsg, setErrorMsg] = useState<string | null>(null);
               Graduation Invitation
             </p>
 
-            <p className="text-[clamp(14px,2vw,16px)] text-brand-accent/70 leading-relaxed">
-Thân mời các tình yêu đến tham dự lễ tốt nghiệp của
-            </p>
+            <p className="text-[clamp(14px,2.5vw,20px)] tracking-[0.18em] text-brand-accent/60 leading-relaxed">
+  Thân mời các tình yêu đến tham dự lễ tốt nghiệp của
+</p>
 
             <h1 className="font-serif text-[clamp(2.4rem,6vw,4.8rem)] leading-tight tracking-tight">
               Nguyễn Thảo My
@@ -213,7 +219,7 @@ Thân mời các tình yêu đến tham dự lễ tốt nghiệp của
               key={item.label}
               className="bg-white px-8 py-10 rounded-2xl border border-brand-accent/10 shadow-sm hover:shadow-md transition"
             >
-              <span className="text-[11px] uppercase tracking-[0.3em] text-brand-accent/40 block mb-4">
+              <span className="text-[15px] uppercase tracking-[0.3em] text-brand-accent/40 block mb-4">
                 {item.label}
               </span>
 
@@ -244,7 +250,7 @@ Thân mời các tình yêu đến tham dự lễ tốt nghiệp của
     href={item.link}
     target="_blank"
     rel="noopener noreferrer"
-    className="block mt-3 text-blue-500 underline"
+    className="text-[12px] uppercase tracking-[0.2em] border-b border-brand-accent pb-1 hover:opacity-60 transition"
   >
     {item.linkLabel || "Xem chỉ đường"}
   </a>
@@ -261,11 +267,9 @@ Thân mời các tình yêu đến tham dự lễ tốt nghiệp của
           </p>
             </div>
       {/* RSVP */}
-      <Section>
+     <Section>
         <div className="text-center space-y-6">
 
-
-          {/* INPUT */}
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -275,49 +279,42 @@ Thân mời các tình yêu đến tham dự lễ tốt nghiệp của
 
           <div className="flex justify-center gap-4">
 
-            <button
-              disabled={loading}
-              onClick={() => sendRSVP('Đi')}
-              className="px-6 py-3 rounded-full border border-brand-accent hover:bg-brand-accent hover:text-white"
-            >
-              {loading ? "Đang gửi..." : "Đồng ý" }
+        <button             className="px-6 py-3 rounded-full border border-brand-accent/30 text-center "
 
-            </button>
+  disabled={loadingType !== null}
+  onClick={() => sendRSVP('Đi')}
+>
+  {loadingType === 'Đi' ? "Đang gửi..." : "Đồng ý"}
+</button>
 
-            <button
-              disabled={loading}
-              onClick={() => sendRSVP('Không')}
-              className="px-6 py-3 rounded-full border border-brand-accent/40"
-              
-            >              {loading ? "Đang gửi..." : "Từ chối" }
+          <button             className="px-6 py-3 rounded-full border border-brand-accent/30 text-center "
 
-            </button>
-{(message || errorMsg) && (
-  <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50">
-    
-    <div className={`flex items-center gap-3 px-5 py-3 rounded-full shadow-lg backdrop-blur-md border
-      ${message 
-        ? "bg-white/80 border-brand-accent/10 text-brand-accent" 
-        : "bg-red-50 border-red-200 text-red-500"
-      }`}>
+  disabled={loadingType !== null}
+  onClick={() => sendRSVP('Không')}
+>
+  {loadingType === 'Không' ? "Đang gửi..." : "Từ chối"}
+</button>
 
-      <span className="text-lg">
-        {message ? "" : ""}
-      </span>
+            {/* Popup */}
+            {(message || errorMsg) && (
+              <div className="fixed inset-0 flex items-center justify-center z-50">
+                <div className={`px-6 py-4 rounded-2xl shadow-xl backdrop-blur-md border text-center
+                  ${message 
+                    ? "bg-white/90 border-brand-accent/10 text-brand-accent" 
+                    : "bg-red-50 border-red-200 text-red-500"
+                  }`}>
+                  <p className="text-sm italic">
+                    {message || errorMsg}
+                  </p>
+                </div>
+              </div>
+            )}
 
-<span className="text-sm italic whitespace-nowrap">
-        {message || errorMsg}
-      </span>
-
-    </div>
-
-  </div>
-)}
           </div>
-
 
         </div>
       </Section>
+
 
       {/* POPUP */}
       {openImage && (
