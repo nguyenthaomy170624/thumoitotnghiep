@@ -68,12 +68,12 @@ const detailCards = [
   {
     label: 'Thời gian',
     title: 'Thứ Tư, 22/04/2026',
-    body: '15:00 – 15:45',
+    body: '15:00 – 16:30',
   },
   {
     label: 'Địa điểm',
     title: 'Trường Đại học Tài chính – Marketing',
-    body: '306 Võ Văn Hát, Long Trường, TP. Hồ Chí Minh',
+    body: '306 Võ Văn Hát, Long Trường, Hồ Chí Minh',
     link:
       'https://www.google.com/maps/search/?api=1&query=Trường+Đại+học+Tài+chính+Marketing+306+Võ+Văn+Hát',
     linkLabel: 'Xem chỉ đường',
@@ -157,12 +157,12 @@ useEffect(() => {
 
           {/* TEXT */}
           <motion.div className="text-center md:text-left space-y-3 sm:space-y-4">
-            <p className="text-[clamp(10px,1.5vw,12px)] uppercase tracking-[0.45em] text-brand-accent/40">
-              Graduation Invitation
+            <p className="font-serif text-[clamp(2.4rem,6vw,4.8rem)] uppercase leading-tight tracking-tight">
+              Thân mời
             </p>
 
             <p className="text-[clamp(14px,2.5vw,20px)] tracking-[0.18em] text-brand-accent/60 leading-relaxed">
-  Thân mời các tình yêu đến tham dự lễ tốt nghiệp của
+  Các tình yêu đến tham dự lễ tốt nghiệp của
 </p>
 
             <h1 className="font-serif text-[clamp(2.4rem,6vw,4.8rem)] leading-tight tracking-tight">
@@ -176,22 +176,14 @@ useEffect(() => {
               <br />
               Ngành Hệ thống thông tin quản lý
             </p>
-          </motion.div>
-
-          {/* IMAGE */}
-          <motion.div>
-            <div className="relative aspect-[4/5] max-w-[420px] mx-auto overflow-hidden rounded-2xl shadow-2xl">
+             <div className="relative aspect-[4/5] max-w-[420px] mx-auto overflow-hidden rounded-2xl shadow-2xl">
               <img src="/images/anhmyne.jpg" className="w-full h-full object-cover" />
               <div className="absolute inset-0 border-[14px] border-white/20" />
             </div>
           </motion.div>
-          
-        </div>
-      </section>
 
-      {/* COUNTDOWN */}
-<Section>
- <div className="text-center space-y-2">
+      
+          <div className="text-center space-y-2">
     {/* Title */}
     <p className="text-[15px] uppercase tracking-[0.45em] font-bold text-brand-accent/40 text-center">
       Countdown to Celebration
@@ -206,7 +198,9 @@ useEffect(() => {
     </div>
 
   </div>
-</Section>
+        </div>
+      </section>
+
 <p className="text-[15px] uppercase tracking-[0.45em] font-bold text-brand-accent/40  text-center">
             Thông tin buổi lễ
           </p>
