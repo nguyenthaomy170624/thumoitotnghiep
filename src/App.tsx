@@ -156,7 +156,7 @@ const [errorMsg, setErrorMsg] = useState<string | null>(null);
             </p>
 
             <p className="text-[clamp(14px,2vw,16px)] text-brand-accent/70 leading-relaxed">
-              Trân trọng kính mời tham dự lễ tốt nghiệp của
+Thân mời các tình yêu đến tham dự lễ tốt nghiệp của
             </p>
 
             <h1 className="font-serif text-[clamp(2.4rem,6vw,4.8rem)] leading-tight tracking-tight">
@@ -179,6 +179,7 @@ const [errorMsg, setErrorMsg] = useState<string | null>(null);
               <div className="absolute inset-0 border-[14px] border-white/20" />
             </div>
           </motion.div>
+          
         </div>
       </section>
 
@@ -238,6 +239,16 @@ const [errorMsg, setErrorMsg] = useState<string | null>(null);
                   {item.body}
                 </p>
               )}
+              {item.link && (
+  <a
+    href={item.link}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="block mt-3 text-blue-500 underline"
+  >
+    {item.linkLabel || "Xem chỉ đường"}
+  </a>
+)}
             </div>
           ))}
 
